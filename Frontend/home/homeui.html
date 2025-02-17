@@ -1,0 +1,129 @@
+<header class="header-area">
+    <link rel="stylesheet" href="homeui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <div class="navbar-area">
+        <div class="container_Nav">
+          <nav class="site-navbar">
+            <a href="../home/homeui.html" class="site-logo">GB Bets</a>
+            <ul>
+              <li><a href="../dashboard/index.html">Overview</a></li>
+              <li><a href="../match/matchui.html">Match</a></li>
+              <li><a href="../market/marketui.html">Match Status</a></li>
+              <li><a href="../history/historyui.html">History</a></li>
+              <li class="profile-container">
+                  <a href="#" class="profile-link">
+                      <i class="fa-solid fa-user profile"></i>
+                  </a>
+                  <div class="profile-dropdown">
+                      <ul>
+                          <li class="dropdown-item wallet-item">
+                              <div class="wallet-header">
+                                  <i class="fa-solid fa-wallet"></i>
+                                  <p >Wallet:</span></p>
+                                  <span id="profile_amount" style="color: #253e5f;"></span>
+                              </div>
+                          </li>
+                          <li class="dropdown-item2"  id="SECOND_LIST">
+                            <i class="fa-solid fa-user-circle" id="account_icon"></i>
+                              <a href="https://myaccount.betfair.com/activity/bettinghistory" target="_blank" class="profile_link">My BetFair Account</a>
+                          </li>
+                      </ul>
+                  </div>
+              </li>
+            </ul>
+ 
+            <button class="nav-toggler">
+              <span></span>
+            </button>
+     
+          </nav>
+        </div>
+    </div>
+  
+    <div class="intro-area">
+      <div class="container">
+          <div class="row">
+            
+              <div class="metric-box overall_PL">
+                  <div class="metric-title" >Overall P/L</div>
+                  <div class="value-container">
+                    <span class="value" id="over_PL" ></span>
+                    <span class="indicator" id="Indicator"></span>
+
+                </div>
+              </div>
+              <div class="metric-box Total_bet">
+                  <div class="metric-title">Total Bet</div>
+                  <div class="value-container">
+                    <span class="value" id="TB" ></span>
+                    <span class="indicator" id="Indicator0"></span>
+
+                </div>
+              </div>
+              <div class="metric-box Bet_matched">
+                  <div class="metric-title">Bet Matched</div>
+                  <div class="value-container">
+                      <span class="value" id="BM" ></span>
+                    <span class="indicator" id="Indicator4"></span>
+                  </div>
+              </div>
+              <div class="metric-box Bet_unmatched">
+                  <div class="metric-title">Bet Unmatched</div>
+                  <div class="value-container">
+                      <span class="value" id="UM" ></span>
+                    <span class="indicator" id="Indicator5"></span>
+                  </div>
+              </div>
+          </div>
+  
+          <div class="row" id="row2" style="margin-top:-3%;">
+              <div class="metric-box Strat1_PL">
+                  <div class="metric-title">Strategy 1 P&L</div>
+                  <div class="value-container">
+                      <span class="value" id="PL1"></span>
+                      <span class="indicator" id="Indicator1"></span>
+                  </div>
+              </div>
+              <div class="metric-box Strat2_PL">
+                  <div class="metric-title" >Strategy 2 P&L</div>
+                  <div class="value-container">
+                      <span class="value" id="PL2"></span>
+                      <span class="indicator" id="Indicator2"></span>
+                  </div>
+              </div>
+              <div class="metric-box Strat3_PL">
+                  <div class="metric-title">Strategy 3 P&L</div>
+                  <div class="value-container">
+                      <span class="value" id="PL3"></span>
+                      <span class="indicator" id="Indicator3"></span>
+                  </div>
+              </div>
+          </div>
+  
+          <div class="box_heading">
+              <p class="tour_text">Select a Tournament *</p>
+              <p class="default_Amount">Default Amount *</p>
+          </div>
+      
+          <div class="box_row">
+              <button id="tournamentButton" onclick="toggleDropdown()">Tournament <span id="arrow">&#11167;</span></button>
+              <div id="dropdown" style="display: none;"></div>
+              <div id="tournamentError" class="error"></div>
+              <input id="amount" type="number" min="0" placeholder="Default amount per match($)" style="font-size: 1rem;"/>
+              <div id="amountError" class="error"></div>
+          </div>
+      
+          <button class="Submit" id="submitbutton" onclick="submit()">Submit</button>
+      </div>
+  </div>
+     
+  <div class="loading-overlay">
+    <div class="loader"></div>
+    <span id="submitting_data">Submitting Data</span>
+</div>
+      
+  </header>
+
+  <script src="homeui.js"></script>

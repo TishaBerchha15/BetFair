@@ -1,0 +1,116 @@
+<header class="header-area">
+    <link rel="stylesheet" href="matchui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+
+    <div class="navbar-area">
+      <div class="container">
+        <nav class="site-navbar">
+          <a href="../dashboard/index.html" class="site-logo">GB Bets</a>
+          <ul>
+            <li><a href="../dashboard/index.html">Overview</a></li>
+            <li><a href="../match/matchui.html">Match</a></li>
+            <li><a href="../market/marketui.html">Match Status</a></li>
+            <li><a href="../history/historyui.html">History</a></li>
+            <li class="profile-container">
+                <a href="#" class="profile-link">
+                    <i class="fa-solid fa-user profile"></i>
+                </a>
+                <div class="profile-dropdown">
+                    <ul>
+                        <li class="dropdown-item wallet-item">
+                            <div class="wallet-header">
+                                <i class="fa-solid fa-wallet"></i>
+                                <p>Wallet: <span  id="profile_amount"></span></p>
+                                <!-- <span id="profile_amount" style="color: #253e5f;"></span> -->
+                            </div>
+                        </li>
+                        <li class="dropdown-item2"  id="SECOND_LIST">
+                          <i class="fa-solid fa-user-circle" id="account_icon"></i>
+                            <a href="https://myaccount.betfair.com/activity/bettinghistory" target="_blank" class="profile_link">My BetFair Account</a>
+                        </li>
+                        <button id="logout">Logout</button>
+                      </ul>
+                </div>
+            </li>
+          </ul>
+
+          <button class="nav-toggler">
+            <span></span>
+          </button>
+        </nav>
+      </div>
+    </div>
+  
+    <div class="intro-area">
+        <div class="container">
+            <div class="table-wrapper">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th rowspan="2" id="select">
+                        <input type="checkbox" id="select-all-checkbox" > Select All
+                      </th>
+                      <th rowspan="2" id="runners" style="width:20%">Matches</th>
+                      <th rowspan="2" id="marketTime" style="width:21%">Start Time</th>
+                      <th rowspan="2" id="winning_player">Predicted Winner</th>
+                      <th rowspan="2" id="Probability">Probability</th>
+                      <th rowspan="2" id="odds" style="width:10%">Odds</th>
+                      <th rowspan="2" id="volume">Volume</th>
+                      <th rowspan="2" id="amount" style="width:2%">Amount</th>
+                      <th rowspan="2" id="strategy" style="width:11%">Strategy</th>
+                    </tr>
+                  </thead>
+                  <tbody id="table-body">
+                  </tbody>
+                </table>
+                <br>
+                <br>
+              </div>
+              <div class="erorr" id="amounterror"></div>
+              <br>
+              <br>
+              <button class="submit_btn" onclick="submitBtn()" id="Submit_button">Submit</button>
+            
+              <div class="result_explain" style="margin-left:25%;margin-top:3%; font-family: sans-serif;">
+                <p id="selectedMatch"> </p>
+              </div>
+             
+             
+              <div class="table-wrapper_selected" >
+                <table class="table_selected">
+                  <thead>
+                    <tr>
+                      <th rowspan="2" id="selMatch" style="width:12%">Matches</th>
+                      <th rowspan="2" id="selAmount"style="width:5%">Amount</th>
+                      <th rowspan="2" id="selStrategy"style="width:11%">Strategy</th>
+                      <th rowspan="2" id="selProfit" style="width:12%">Estimated Profit/Loss</th>
+                    </tr>
+                  </thead>
+                  <tbody id="table-body_selected">
+                    
+                  </tbody>
+                </table>
+                <br>
+                <br>
+              </div>
+        
+              <div class="loading-overlay">
+                <div class="loader"></div>
+                <br>
+                <span id="matches_upload"> Matches getting Uploaded</span>
+              </div>
+            
+            
+           
+    </div>
+
+     
+      
+  </header>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="matchtry.js"></script>

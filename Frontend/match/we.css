@@ -1,0 +1,142 @@
+@media screen and (max-width: 767px) {
+
+  .profile-container {
+    order: -1;
+    width: 100%;
+    position: relative;
+  }
+
+
+  .profile-icon-container {
+    top: 10px; 
+    right: 10px;
+  }
+
+ 
+  .profile-icon-container .profileIcon {
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .profile-container .profile-link {
+    justify-content: center;
+    padding: 25px;
+  }
+
+
+    .profile_link {
+      margin-top: -16% !important;
+      font-size: 12px;
+      margin-left: -29% !important;
+    }
+    #account_icon{
+      margin-left: -94%;
+      margin-top: 1% !important;
+    }
+
+  .profile-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 300px;
+    display: none;
+    background: white;
+    z-index: 1001;
+  }
+
+  .profile-container:hover .profile-dropdown,
+  .profile-link:focus + .profile-dropdown {
+    display: block;
+  }
+
+  
+  .profile-dropdown ul {
+    position: static;
+    max-height: none;
+    background: none;
+    border: none;
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .container {
+    max-width: 720px;
+  }
+  /* navbar css for mobile start */
+  .nav-toggler{
+    display: block;
+      position: relative;
+      z-index: 10;
+      right: 9%;
+  }
+  .site-navbar {
+    min-height: 60px;
+  }
+
+  .site-navbar > ul {
+    position: absolute;
+    width: 100%;
+    height: calc(100vh - 60px);
+    left: 0;
+    top: 60px;
+    flex-direction: column;
+    align-items: center;
+    border-top: 1px solid #444;
+    background-color: rgba(0,0,0,.75);
+    max-height: 0;
+    overflow: hidden;
+    transition: .3s;
+  }
+  .site-navbar > ul.open {
+    max-height: 100vh;
+    overflow: visible;
+  }
+
+  
+
+  .site-navbar ul li {
+    width: 100%;
+    text-align: center;
+  }
+  .site-navbar ul li a {
+    padding: 25px;
+  }
+  .site-navbar ul li a:hover {
+    background-color: rgba(255,255,255,.1);
+  }
+  .site-navbar ul.open {
+    max-height: 100vh;
+    overflow: visible;
+  }
+  .intro-area h2 {
+    font-size: 36px;
+    margin-bottom: 15px;
+  }  
+  .site-navbar ul li:last-child {
+    display: block;
+  }
+
+ 
+
+ 
+  .dar{
+    left:2%;
+    top:68%;
+  }
+
+  .get_history {
+     font-size:12px;
+     position:absolute;
+     display: flex;
+     top:67%;
+     left:83%;
+     height:15%;
+     text-align: center;
+     padding:3px 5px 5px 5px;
+     cursor: pointer;
+  }
+}

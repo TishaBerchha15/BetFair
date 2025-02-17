@@ -1,0 +1,115 @@
+<header class="header-area">
+    <link rel="stylesheet" href="historyui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+
+    <div class="navbar-area">
+      <div class="container">
+        <nav class="site-navbar">
+          <a href="../dashboard/index.html" class="site-logo">GB Bets</a>
+          <ul>
+            <li><a href="../dashboard/index.html">Overview</a></li>
+            <li><a href="../match/matchui.html">Match</a></li>
+            <li><a href="../market/marketui.html">Match Status</a></li>
+            <li><a href="../history/historyui.html">History</a></li>
+            <li class="profile-container">
+                <a href="#" class="profile-link">
+                    <i class="fa-solid fa-user profile"></i>
+                </a>
+                <div class="profile-dropdown">
+                    <ul>
+                        <li class="dropdown-item wallet-item">
+                            <div class="wallet-header">
+                                <i class="fa-solid fa-wallet"></i>
+                                <p >Wallet:</span></p>
+                                <span id="profile_amount" style="color: #253e5f;"></span>
+                            </div>
+                        </li>
+                        <li class="dropdown-item2"  id="SECOND_LIST">
+                          <i class="fa-solid fa-user-circle" id="account_icon"></i>
+                            <a href="https://myaccount.betfair.com/activity/bettinghistory" target="_blank" class="profile_link">My BetFair Account</a>
+                        </li>
+                        <button id="logout">Logout</button>
+                    </ul>
+                </div>
+            </li>
+          </ul>
+
+          <button class="nav-toggler">
+            <span></span>
+          </button>
+   
+        </nav>
+      </div>
+  </div>
+  
+    <div class="intro-area">
+        <div class="container">
+            <div class="time_period">
+                <span id="history_heading"> Betting History </span>
+          
+                  <div class="period">
+                  <div>
+                    <label for="start-date">Period:&nbsp;</label>
+                  <select name="time-frame-select" id="time-frame-select" class="boot-select select-block">
+                          <option value="today">Today</option>
+                          <option value="yesterday">Yesterday</option>
+                          <option value="last-7-days">Last 7 days</option>
+                          <!-- <option value="last-4-weeks">Last 4 weeks</option> -->
+                          <option value="last-month">Last month</option>
+                          <option value="last-year">Last year</option>
+                  </select>
+                  </div>
+                  <div class="sports">
+                    <label for="">Sports</label>
+                    <select class="allSports"  >
+                       <!-- data from api -->
+                    </select>
+                  </div>
+                  </div>
+                  <br />
+          
+                  <div class="dar">
+                      <label for="start-date">Date:&nbsp;</label>
+                      <input class="input-small datepicker" type="text" name="start-date" id="start-date" value="07-01-2013"/>&nbsp;&nbsp;
+                      <label for="end-date">to:&nbsp;</label>
+                      <input class="input-small datepicker" type="text" name="end-date" id="end-date" value="08-31-2013"/>
+                  </div> 
+              <button class="get_history" onclick="getHistory()">Get History</button>
+              </div>
+          
+          
+              <div class="history-wrapper" >
+                  <table class="history" style="display: none;">
+                    <thead>
+                      <tr>
+                        <th rowspan="2" id="date" style="width:13%">Date</th>
+                        <th rowspan="2" id="hisMatch" style="width:20%">Match</th>
+                        <th rowspan="2" id="hisPlayer" style="width:13%">Player</th>
+                        <th rowspan="2" id="hisStrategy"style="width:11%">Strategy</th>
+                        <th rowspan="2" id="hisType" style="width:12%">Type</th>
+                        <th rowspan="2" id="hisAmount"style="width:5%">Stake</th>
+                        <th rowspan="2" id="hisOdds" style="width:12%">Odds</th>
+                        <th rowspan="2" id="hisStatus" style="width:12%">Status</th>
+                        <th rowspan="2" id="hisPL" style="width:12%">Profit/Loss($)</th>
+                      </tr>
+                    </thead>
+                    <tbody id="table-body">
+                    </tbody>
+                  </table>
+                  <br>
+                  <br>
+                </div>
+          
+          
+                
+              </div>
+           
+      </div>
+  </header>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- SweetAlert2 CDN -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+  <script src="historyui.js"></script>
