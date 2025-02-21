@@ -36,7 +36,7 @@ function navLinkClick() {
 
 document.addEventListener('DOMContentLoaded', function() {
   // Update wallet balance from profile_amount
-  const profileIcon = document.querySelector('.profile');
+  const profileIcon = document.querySelector('.profile-container');
   const dropdownContent = document.querySelector('.profile-dropdown');
   const profileAmount = document.getElementById('profile_amount');
   const walletBalance = document.getElementById('wallet-balance');
@@ -304,7 +304,7 @@ function updateTable() {
 
   // Populate with updated data
   MARKETstatus.forEach((bet) => {
-    if (bet.Status && bet.Status==='Matched') { 
+    if ((bet.strategy==="strategy_1"&&bet.Odds===1)||(bet.strategy==="strategy_3"&&bet.Odds===1)) { 
         const row = document.createElement('tr');
         const dateCell = document.createElement('td');
         const matchCell = document.createElement('td');

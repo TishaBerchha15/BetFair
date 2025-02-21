@@ -647,19 +647,8 @@ function submit() {
     });
 } 
  
-// function getCurrentDate() {
-//     const today = new Date();
-//     const year = today.getFullYear();
-//     const month = String(today.getMonth() + 1).padStart(2, '0'); // Ensure two-digit month
-//     const day = String(today.getDate()).padStart(2, '0'); // Ensure two-digit day
-//     return `${year}-${month}-${day}`;
-// }
+ 
 
-// // Ensure script runs after page is fully loaded
-// window.onload = function() {
-//     document.getElementById('startDate').value = getCurrentDate();
-//     document.getElementById('endDate').value = getCurrentDate();
-// };
 
 
 

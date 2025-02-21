@@ -122,74 +122,7 @@ function navLinkClick() {
 
 // document.addEventListener('DOMContentLoaded', fetchTournamentsAndAmount);
 
-
-async function fetchTournamentsAndAmount() {
-    try {
-        const sessionToken = localStorage.getItem('sessionToken');
-        const [amountResponse] = await Promise.all([
-            fetch('http://localhost:6060/api/accfunds',  {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${sessionToken}`
-                }
-            })
-        ]);
-
-        if (!amountResponse.ok) {
-            throw new Error(`Amount: ${amountResponse.status}`);
-        }
-
-        const [amountData] = await Promise.all([
-            amountResponse.json()
-        ]);
-
-        const amount2 = amountData.Amount;
-
-        const spanElement = document.querySelector('span');
-        if (!spanElement) {
-            throw new Error('Span element not found in the DOM');
-        }
-        spanElement.textContent = `$${amount2} `;
-
-        sessionStorage.setItem('amount2', JSON.stringify(amount2));
-
-    } catch (error) {
-        console.error('Error fetching data:', error.message);
-    }
-} 
-
-
-document.addEventListener('DOMContentLoaded', fetchTournamentsAndAmount);
-
-
 document.addEventListener('DOMContentLoaded', function () {
-        // Update wallet balance from profile_amount
-        const profileIcon = document.querySelector('.profile');
-        const dropdownContent = document.querySelector('.profile-dropdown');
-        const logoutBtn = document.querySelector('#logout');
-        const profileAmount = document.getElementById('profile_amount');
-        const walletBalance = document.getElementById('wallet-balance');
-       
-        profileIcon.addEventListener('click', function(e) {
-            console.log("Hiii")
-            e.stopPropagation();
-            dropdownContent.style.display="block"
-          });
-          document.addEventListener('click', function(e) {
-            dropdownContent.style.display="none"
-          });
-        if (profileAmount && walletBalance) {
-            // Remove the '$' if it exists in the profile_amount text
-            const amount = profileAmount.textContent.replace('$', '').trim();
-            walletBalance.textContent = `$${amount}`;
-        }
-        logoutBtn.addEventListener('click', function() {
-            window.location.href = '../login/login.html';
-            sessionStorage.clear();
-            history.replaceState(null, null, window.location.href); // Replace current state
-            localStorage.removeItem('sessionToken');
-          });
 
     // const profileamount1 = sessionStorage.getItem('accFunds');
     const selectedMatchTag = document.getElementById('selectedMatch');
@@ -1274,8 +1207,6 @@ if (winning_player_odds && Array.isArray(winning_player_odds)) {
 });
 
 
-
-
 function InsufficientBalance(message, show) {
     const amountErrorElement = document.getElementById('amounterror');
     if (amountErrorElement) {
@@ -1302,78 +1233,72 @@ function InsufficientBalance(message, show) {
 const token = sessionStorage.getItem('sessionToken')
 // console.log(token)
 
+function submitBtn() {
+    const formattedData = all_data.data.market_catalogue.map(market => ({
+        marketId: market.marketId,
+        amount: market.amount,
+        strategy: market.strategies,
+        // runners: market.runners.map(runner => ({
+        //     runnerName: runner.runnerName
+        // }))
+    }));
+
+    console.log("FORMATTED DATA", formattedData);
+
+    if (REDIRECT) {
+        showloader();
+        loader_overlay.style.display = 'block';
+
+        fetch('http://localhost:6060/api/placeOrder', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(formattedData),
+        })
+        .then(response => {
+            if (!response.ok) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: `Error: ${response.status} ${response.statusText}`,
+                });
+                throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                loader_overlay.style.display = 'none';
+                hideLoader();
+                window.location.href = "../market/marketui.html"; // Redirect on success
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Order Failed',
+                    text: 'Something went wrong! Please try again.',
+                });
+                throw new Error("Order placement failed");
+            }
+        })
+        .catch(error => {
+            console.error("Error placing order:", error);
+            hideLoader();
+            loader_overlay.style.display = 'none';
+
+            if (!Swal.isVisible()) {  // Ensures alert is shown only if it hasn't been displayed yet
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong! Please try again later.',
+                });
+            }
+        });
+    }
+}
 
 
-// function submitBtn() {
-//     const formattedData = all_data.data.market_catalogue.map(market => ({
-//         marketId: market.marketId,
-//         amount: market.amount,
-//         strategy: market.strategies,
-//          // runners: market.runners.map(runner => ({
-//         //     runnerName: runner.runnerName
-//         // }))
-//     }));
-
-//     console.log("FORMATTED DATA", formattedData[0]);
-
-//     if (REDIRECT) {
-//         showloader();
-//         loader_overlay.style.display = 'block';
-
-//         fetch('http://localhost:6060/api/placeOrder', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 'Authorization': `Bearer ${token}`
-//             },
-//             body: JSON.stringify(formattedData[0]), // Send only one object
-//         })
-//         .then(response => {
-//             if (!response.ok) {
-//                 Swal.fire({
-//                     icon: 'error',
-//                     title: 'Oops...',
-//                     text: `Error: ${response.status} ${response.statusText}`,
-//                 });
-//                 throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
-//             }
-//             return response.json();
-//         })
-//         .then(data => {
-//             console.log("Response Data:", data);
-
-//             if (data.success || data.marketId) {  // Ensure a successful response
-//                 hideLoader();
-//                 loader_overlay.style.display = 'none';
-
-//                 // Delay redirection slightly to ensure smooth UI transition
-//                 setTimeout(() => {
-//                     window.location.href = "../market/marketui.html"; 
-//                 }, 500);  
-//             } else {
-//                 Swal.fire({
-//                     icon: 'error',
-//                     title: 'Order Failed',
-//                     text: 'Something went wrong! Please try again.',
-//                 });
-//                 throw new Error("Order placement failed");
-//             }
-//         })
-//         .catch(error => {
-//             console.error("Error placing order:", error);
-//             hideLoader();
-//             loader_overlay.style.display = 'none';
-
-//             if (!Swal.isVisible()) {  
-//                 Swal.fire({
-//                     icon: 'error',
-//                     title: 'Oops...',
-//                     text: 'Something went wrong! Please try again later.',
-//                 });
-//             }
-//         });
-//     }
-// }
 
 
 

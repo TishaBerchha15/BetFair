@@ -69,18 +69,19 @@ function navLinkClick() {
   }
 }
  
+
  
-// document.addEventListener('DOMContentLoaded', function() {
-//     // Update wallet balance from profile_amount
-//     const profileAmount = document.getElementById('profile_amount');
-//     const walletBalance = document.getElementById('wallet-balance');
+document.addEventListener('DOMContentLoaded', function() {
+    // Update wallet balance from profile_amount
+    const profileAmount = document.getElementById('profile_amount');
+    const walletBalance = document.getElementById('wallet-balance');
    
-//     if (profileAmount && walletBalance) {
-//         // Remove the '$' if it exists in the profile_amount text
-//         const amount = profileAmount.textContent.replace('$', '').trim();
-//         walletBalance.textContent = `$${amount}`;
-//     }
-//   });
+    if (profileAmount && walletBalance) {
+        // Remove the '$' if it exists in the profile_amount text
+        const amount = profileAmount.textContent.replace('$', '').trim();
+        walletBalance.textContent = `$${amount}`;
+    }
+  });
  
  
 // --------------------------------------------------------------------------------------------------------
@@ -122,74 +123,7 @@ function navLinkClick() {
 
 // document.addEventListener('DOMContentLoaded', fetchTournamentsAndAmount);
 
-
-async function fetchTournamentsAndAmount() {
-    try {
-        const sessionToken = localStorage.getItem('sessionToken');
-        const [amountResponse] = await Promise.all([
-            fetch('http://localhost:6060/api/accfunds',  {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${sessionToken}`
-                }
-            })
-        ]);
-
-        if (!amountResponse.ok) {
-            throw new Error(`Amount: ${amountResponse.status}`);
-        }
-
-        const [amountData] = await Promise.all([
-            amountResponse.json()
-        ]);
-
-        const amount2 = amountData.Amount;
-
-        const spanElement = document.querySelector('span');
-        if (!spanElement) {
-            throw new Error('Span element not found in the DOM');
-        }
-        spanElement.textContent = `$${amount2} `;
-
-        sessionStorage.setItem('amount2', JSON.stringify(amount2));
-
-    } catch (error) {
-        console.error('Error fetching data:', error.message);
-    }
-} 
-
-
-document.addEventListener('DOMContentLoaded', fetchTournamentsAndAmount);
-
-
 document.addEventListener('DOMContentLoaded', function () {
-        // Update wallet balance from profile_amount
-        const profileIcon = document.querySelector('.profile');
-        const dropdownContent = document.querySelector('.profile-dropdown');
-        const logoutBtn = document.querySelector('#logout');
-        const profileAmount = document.getElementById('profile_amount');
-        const walletBalance = document.getElementById('wallet-balance');
-       
-        profileIcon.addEventListener('click', function(e) {
-            console.log("Hiii")
-            e.stopPropagation();
-            dropdownContent.style.display="block"
-          });
-          document.addEventListener('click', function(e) {
-            dropdownContent.style.display="none"
-          });
-        if (profileAmount && walletBalance) {
-            // Remove the '$' if it exists in the profile_amount text
-            const amount = profileAmount.textContent.replace('$', '').trim();
-            walletBalance.textContent = `$${amount}`;
-        }
-        logoutBtn.addEventListener('click', function() {
-            window.location.href = '../login/login.html';
-            sessionStorage.clear();
-            history.replaceState(null, null, window.location.href); // Replace current state
-            localStorage.removeItem('sessionToken');
-          });
 
     // const profileamount1 = sessionStorage.getItem('accFunds');
     const selectedMatchTag = document.getElementById('selectedMatch');
@@ -591,8 +525,12 @@ if (winning_player_odds && Array.isArray(winning_player_odds)) {
                                     const amount = parseFloat(amountCell.textContent.replace('$', ''));
                                     
                                     // Calculate profits for Strategy 3 only
-                                    let lay_val3 = (layOdds)*(amount/2);
-                                    let back_val3 = lay_val3/backOdds;
+                                    // let lay_val3 = (layOdds)*(amount/2);
+                                    // let back_val3 = lay_val3/backOdds;
+                                    // let Awin = ((backOdds - 1) * back_val3) - ((layOdds - 1) * (amount / 2));
+                                    // let Bwin = (amount / 2) - back_val3;
+                                    let back_val3 = amount/2
+                                    let lay_val3 = (back_val3*backOdds)/layOdds
                                     let Awin = ((backOdds - 1) * back_val3) - ((layOdds - 1) * (amount / 2));
                                     let Bwin = (amount / 2) - back_val3;
                                     profitCell.textContent = `Player1: ${Awin.toFixed(2)} \n Player2: ${Bwin.toFixed(2)}`;
@@ -806,19 +744,27 @@ if (winning_player_odds && Array.isArray(winning_player_odds)) {
                 "Type":Type,
             };
 
-           
-
             
             const calculateProfits = (strategy, amount) => {
-                const new_backO = (amount/2)*(backOdds-1);
-                const new_layO = (amount/2)*(layOdds-1);
+                
+                // const new_backO = (amount/2)*(backOdds-1);
+                // const new_layO = (amount/2)*(layOdds-1);
+                // const strr_2 = (amount)*(backOdds-1);
+                
+                // const lay_val3 = (layOdds)*(amount/2);
+                // const back_val3 = lay_val3/backOdds;
+                
+                const new_backO = amount/2
+                const new_layO = amount/2
+                
                 const strr_1 = new_backO-new_layO;
-                const strr_2 = (amount)*(backOdds-1);
-                const lay_val3 = (layOdds)*(amount/2);
-                const back_val3 = lay_val3/backOdds;
+                const strr_2 = amount;
+                const back_val3 = amount/2
+                const lay_val3 = (back_val3*backOdds)/layOdds
                 const Awin = ((backOdds - 1) * back_val3) - ((layOdds - 1) * (amount / 2));
                 const Bwin = (amount / 2) - back_val3;
-                var strr_3_amountt = (amount/2) + back_val3 ;
+
+                // var strr_3_amountt = (amount/2) + back_val3 ;
            
                 switch(strategy) {
                     case 'Strategy 1':
@@ -953,40 +899,40 @@ if (winning_player_odds && Array.isArray(winning_player_odds)) {
 
             // Update amount input listener
 
-            amountInput.addEventListener('input', (e) => {
-                enteredAmount = parseInt(e.target.value) || 0;
-                
-                if (strategyDisplayNames[temp_data.strategies] === 'Strategy 3') {
-                    const lay_val3 = (layOdds) * (enteredAmount / 2);
-                    const back_val3 = lay_val3 / backOdds;
-                    temp_data.amount = (enteredAmount / 2) + back_val3;
-                } else {
-                    temp_data.amount = enteredAmount;
-                }
-                
-                const ind = all_data["data"]["market_catalogue"].findIndex(obj => obj.marketId === temp_data.marketId);
-                if (ind !== -1) {
-                    all_data["data"]["market_catalogue"][ind].amount = temp_data.amount;
-                }
-                
-                updateDisplay();
-            });
-
             // amountInput.addEventListener('input', (e) => {
-                
             //     enteredAmount = parseInt(e.target.value) || 0;
-            //     temp_data.amount = enteredAmount;
                 
+            //     if (strategyDisplayNames[temp_data.strategies] === 'Strategy 3') {
+            //         const lay_val3 = (layOdds) * (enteredAmount / 2);
+            //         const back_val3 = lay_val3 / backOdds;
+            //         temp_data.amount = (enteredAmount / 2) + back_val3;
+            //     } else {
+            //         temp_data.amount = enteredAmount;
+            //     }
                 
             //     const ind = all_data["data"]["market_catalogue"].findIndex(obj => obj.marketId === temp_data.marketId);
             //     if (ind !== -1) {
-            //         all_data["data"]["market_catalogue"][ind].amount = enteredAmount;
-            //         // console.log("Amount", enteredAmount)
-
+            //         all_data["data"]["market_catalogue"][ind].amount = temp_data.amount;
             //     }
                 
             //     updateDisplay();
             // });
+
+            amountInput.addEventListener('input', (e) => {
+                
+                enteredAmount = parseInt(e.target.value) || 0;
+                temp_data.amount = enteredAmount;
+                
+                
+                const ind = all_data["data"]["market_catalogue"].findIndex(obj => obj.marketId === temp_data.marketId);
+                if (ind !== -1) {
+                    all_data["data"]["market_catalogue"][ind].amount = enteredAmount;
+                    // console.log("Amount", enteredAmount)
+
+                }
+                
+                updateDisplay();
+            });
 
             updateSelectAllCheckbox();
             
@@ -1068,12 +1014,21 @@ if (winning_player_odds && Array.isArray(winning_player_odds)) {
                     idx=idx+1
  
                     const calculateProfits = (strategy, amount) => {
-                        const new_backO = (amount / 2) * (backOdds - 1);
-                        const new_layO = (amount / 2) * (layOdds - 1);
-                        const strr_1 = new_backO - new_layO;
-                        const strr_2 = amount * (backOdds - 1);
-                        const lay_val3 = layOdds * (amount / 2);
-                        const back_val3 = lay_val3 / backOdds;
+                        // const new_backO = (amount / 2) * (backOdds - 1);
+                        // const new_layO = (amount / 2) * (layOdds - 1);
+                        // const strr_1 = new_backO - new_layO;
+                        // const strr_2 = amount * (backOdds - 1);
+                        // const lay_val3 = layOdds * (amount / 2);
+                        // const back_val3 = lay_val3 / backOdds;
+
+                        const new_backO = amount/2
+                        const new_layO = amount/2
+                        
+                        const strr_1 = new_backO-new_layO;
+                        const strr_2 = amount;
+                        const back_val3 = amount/2
+                        const lay_val3 = (back_val3*backOdds)/layOdds
+
                         const Awin = ((backOdds - 1) * back_val3) - ((layOdds - 1) * (amount / 2));
                         const Bwin = (amount / 2) - back_val3;
                    
@@ -1177,8 +1132,10 @@ if (winning_player_odds && Array.isArray(winning_player_odds)) {
                                 const newAmount = parseInt(currentAmountInput.value) || 0;
 
                                 if (selStrategyCell.textContent === 'Strategy 3') {
-                                    const lay_val3 = layOdds * (newAmount / 2);
-                                    const back_val3 = lay_val3 / backOdds;
+                                    // const lay_val3 = layOdds * (newAmount / 2);
+                                    // const back_val3 = lay_val3 / backOdds;
+                                    const back_val3 = amounttt/2
+                                    const lay_val3 = (back_val3*backOdds)/layOdds
                                     temp_data.amount = (newAmount / 2) + back_val3;
                                 } else {
                                     temp_data.amount = newAmount;
@@ -1187,8 +1144,10 @@ if (winning_player_odds && Array.isArray(winning_player_odds)) {
                        
                                 // Update selAmountCell for Strategy 3
                                 if (selStrategyCell.textContent === 'Strategy 3') {
-                                    const lay_val3 = layOdds * (newAmount / 2);
-                                    const back_val3 = lay_val3 / backOdds;
+                                    // const lay_val3 = layOdds * (newAmount / 2);
+                                    // const back_val3 = lay_val3 / backOdds;
+                                    const back_val3 = amounttt/2
+                                    const lay_val3 = (back_val3*backOdds)/layOdds
                                     const strr_3_amountt = (newAmount / 2) + back_val3;
                                     selAmountCell.textContent = `$${strr_3_amountt.toFixed(2)}`;
                                 } else {
@@ -1272,8 +1231,6 @@ if (winning_player_odds && Array.isArray(winning_player_odds)) {
 
     
 });
-
-
 
 
 function InsufficientBalance(message, show) {

@@ -70,57 +70,57 @@ function navLinkClick() {
 }
  
  
-// document.addEventListener('DOMContentLoaded', function() {
-//     // Update wallet balance from profile_amount
-//     const profileAmount = document.getElementById('profile_amount');
-//     const walletBalance = document.getElementById('wallet-balance');
+document.addEventListener('DOMContentLoaded', function() {
+    // Update wallet balance from profile_amount
+    const profileAmount = document.getElementById('profile_amount');
+    const walletBalance = document.getElementById('wallet-balance');
    
-//     if (profileAmount && walletBalance) {
-//         // Remove the '$' if it exists in the profile_amount text
-//         const amount = profileAmount.textContent.replace('$', '').trim();
-//         walletBalance.textContent = `$${amount}`;
-//     }
-//   });
+    if (profileAmount && walletBalance) {
+        // Remove the '$' if it exists in the profile_amount text
+        const amount = profileAmount.textContent.replace('$', '').trim();
+        walletBalance.textContent = `$${amount}`;
+    }
+  });
  
  
 // --------------------------------------------------------------------------------------------------------
 
-// async function fetchTournamentsAndAmount() {
-//     try {
-//       const [amountResponse] = await Promise.all([
-//         // fetch('http://127.0.0.1:5000/get_tournament'),
-//         fetch('http://localhost:6060/api/accfunds')
-//       ]);
+async function fetchTournamentsAndAmount() {
+    try {
+      const [amountResponse] = await Promise.all([
+        // fetch('http://127.0.0.1:5000/get_tournament'),
+        fetch('http://localhost:6060/api/accfunds')
+      ]);
 
    
-//       if (!amountResponse.ok) {
-//         throw new Error(
-//           ` Amount: ${amountResponse.status}`
-//         );
-//       }
+      if (!amountResponse.ok) {
+        throw new Error(
+          ` Amount: ${amountResponse.status}`
+        );
+      }
    
-//       const [amountData] = await Promise.all([
-//         // tournamentResponse.json(),
-//         amountResponse.json()
-//       ]);
+      const [amountData] = await Promise.all([
+        // tournamentResponse.json(),
+        amountResponse.json()
+      ]);
    
-//       const amount2 = amountData.Amount;
+      const amount2 = amountData.Amount;
    
-//       const spanElement = document.querySelector('span');
-//       if (!spanElement) {
-//         throw new Error('Span element not found in the DOM');
-//       }
-//       spanElement.textContent = `$${amount2} `;
+      const spanElement = document.querySelector('span');
+      if (!spanElement) {
+        throw new Error('Span element not found in the DOM');
+      }
+      spanElement.textContent = `$${amount2} `;
    
-//       sessionStorage.setItem('accfunds', JSON.stringify(amount2));
+      sessionStorage.setItem('accfunds', JSON.stringify(amount2));
    
-//     } catch (error) {
-//       console.error('Error fetching data:', error.message);
-//     }
+    } catch (error) {
+      console.error('Error fetching data:', error.message);
+    }
 
-// }
+}
 
-// document.addEventListener('DOMContentLoaded', fetchTournamentsAndAmount);
+document.addEventListener('DOMContentLoaded', fetchTournamentsAndAmount);
 
 
 async function fetchTournamentsAndAmount() {
@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', fetchTournamentsAndAmount);
 
 document.addEventListener('DOMContentLoaded', function () {
         // Update wallet balance from profile_amount
-        const profileIcon = document.querySelector('.profile');
+        const profileIcon = document.querySelector('.profile-container');
         const dropdownContent = document.querySelector('.profile-dropdown');
         const logoutBtn = document.querySelector('#logout');
         const profileAmount = document.getElementById('profile_amount');
@@ -191,19 +191,19 @@ document.addEventListener('DOMContentLoaded', function () {
             localStorage.removeItem('sessionToken');
           });
 
-    // const profileamount1 = sessionStorage.getItem('accFunds');
+    const profileamount1 = sessionStorage.getItem('accFunds');
     const selectedMatchTag = document.getElementById('selectedMatch');
     const selectedStrategyTag = document.getElementById('Selected_Strategy');
     const selectedAmountTag = document.getElementById('final_amount');
 
-    // if (profileamount1) {
-    //     const amount = JSON.parse(profileamount1);
-    //     const profileAmountSpan = document.getElementById('profile_amount');
+    if (profileamount1) {
+        const amount = JSON.parse(profileamount1);
+        const profileAmountSpan = document.getElementById('profile_amount');
 
-    //     profileAmountSpan.textContent = `$${amount} `;
-    // } else {
-    //     console.log('No amount found in sessionStorage');
-    // }
+        profileAmountSpan.textContent = `$${amount} `;
+    } else {
+        console.log('No amount found in sessionStorage');
+    }
 
     const selectAllCheckbox = document.getElementById('select-all-checkbox');
     const tableBody = document.getElementById('table-body');
@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const selectedSport = sessionStorage.getItem('selectedSport')
     // const sportObject = JSON.parse(selectedSport)
 
-   
+   console.log("==============",matchesData)
 // console.log("matchesData" ,matchesData);
 
 
@@ -316,9 +316,21 @@ if (winning_player_odds && Array.isArray(winning_player_odds)) {
 }
 
  
-        const marketTime = matches11[index]["marketStartTime"] || '-';
-        marketTimeCell.textContent = marketTime || '-';
+        // const marketTime = matches11[index]["marketStartTime"] || '-';
+        // marketTimeCell.textContent = marketTime || '-';
 
+        const marketTime = matches11[index]["marketStartTime"] || '-';
+            if (marketTime && marketTime !== '-') {
+                const date = new Date(marketTime);
+                const formattedDate = date.toLocaleDateString('en-US', {
+                    month: '2-digit',
+                    day: '2-digit',
+                    year: 'numeric'
+                });
+                marketTimeCell.textContent = formattedDate;
+            } else {
+                marketTimeCell.textContent = '-';
+            }
         // console.log("market",marketTime )
       
     // var amount_target =""
@@ -591,8 +603,8 @@ if (winning_player_odds && Array.isArray(winning_player_odds)) {
                                     const amount = parseFloat(amountCell.textContent.replace('$', ''));
                                     
                                     // Calculate profits for Strategy 3 only
-                                    let lay_val3 = (layOdds)*(amount/2);
-                                    let back_val3 = lay_val3/backOdds;
+                                    let back_val3 = amount/2
+                                    let lay_val3 = (back_val3*backOdds)/layOdds
                                     let Awin = ((backOdds - 1) * back_val3) - ((layOdds - 1) * (amount / 2));
                                     let Bwin = (amount / 2) - back_val3;
                                     profitCell.textContent = `Player1: ${Awin.toFixed(2)} \n Player2: ${Bwin.toFixed(2)}`;
@@ -718,7 +730,7 @@ if (winning_player_odds && Array.isArray(winning_player_odds)) {
             });
 
             // console.log("totalamount", totalAmount)
-            // const profileAmount1 = sessionStorage.getItem('amount1');
+            const profileAmount1 = sessionStorage.getItem('amount1');
             
             if (profileAmount1) {
                 const profileAmount = JSON.parse(profileAmount1);
@@ -810,6 +822,19 @@ if (winning_player_odds && Array.isArray(winning_player_odds)) {
 
             
             const calculateProfits = (strategy, amount) => {
+
+
+                // const new_backO = amount/2
+                // const new_layO = amount/2
+                
+                // const strr_1 = new_backO-new_layO;
+                // const strr_2 = amount;
+                // const back_val3 = amount/2
+                // const lay_val3 = (back_val3*backOdds)/layOdds
+
+                // const Awin = ((backOdds - 1) * back_val3) - ((layOdds - 1) * (amount / 2));
+                // const Bwin = (amount / 2) - back_val3;
+
                 const new_backO = (amount/2)*(backOdds-1);
                 const new_layO = (amount/2)*(layOdds-1);
                 const strr_1 = new_backO-new_layO;
@@ -953,40 +978,40 @@ if (winning_player_odds && Array.isArray(winning_player_odds)) {
 
             // Update amount input listener
 
-            amountInput.addEventListener('input', (e) => {
-                enteredAmount = parseInt(e.target.value) || 0;
-                
-                if (strategyDisplayNames[temp_data.strategies] === 'Strategy 3') {
-                    const lay_val3 = (layOdds) * (enteredAmount / 2);
-                    const back_val3 = lay_val3 / backOdds;
-                    temp_data.amount = (enteredAmount / 2) + back_val3;
-                } else {
-                    temp_data.amount = enteredAmount;
-                }
-                
-                const ind = all_data["data"]["market_catalogue"].findIndex(obj => obj.marketId === temp_data.marketId);
-                if (ind !== -1) {
-                    all_data["data"]["market_catalogue"][ind].amount = temp_data.amount;
-                }
-                
-                updateDisplay();
-            });
-
             // amountInput.addEventListener('input', (e) => {
-                
             //     enteredAmount = parseInt(e.target.value) || 0;
-            //     temp_data.amount = enteredAmount;
                 
+            //     if (strategyDisplayNames[temp_data.strategies] === 'Strategy 3') {
+            //         const lay_val3 = (layOdds) * (enteredAmount / 2);
+            //         const back_val3 = lay_val3 / backOdds;
+            //         temp_data.amount = (enteredAmount / 2) + back_val3;
+            //     } else {
+            //         temp_data.amount = enteredAmount;
+            //     }
                 
             //     const ind = all_data["data"]["market_catalogue"].findIndex(obj => obj.marketId === temp_data.marketId);
             //     if (ind !== -1) {
-            //         all_data["data"]["market_catalogue"][ind].amount = enteredAmount;
-            //         // console.log("Amount", enteredAmount)
-
+            //         all_data["data"]["market_catalogue"][ind].amount = temp_data.amount;
             //     }
                 
             //     updateDisplay();
             // });
+
+            amountInput.addEventListener('input', (e) => {
+                
+                enteredAmount = parseInt(e.target.value) || 0;
+                temp_data.amount = enteredAmount;
+                
+                
+                const ind = all_data["data"]["market_catalogue"].findIndex(obj => obj.marketId === temp_data.marketId);
+                if (ind !== -1) {
+                    all_data["data"]["market_catalogue"][ind].amount = enteredAmount;
+                    // console.log("Amount", enteredAmount)
+
+                }
+                
+                updateDisplay();
+            });
 
             updateSelectAllCheckbox();
             
@@ -1068,6 +1093,17 @@ if (winning_player_odds && Array.isArray(winning_player_odds)) {
                     idx=idx+1
  
                     const calculateProfits = (strategy, amount) => {
+                        // const new_backO = amount/2
+                        // const new_layO = amount/2
+                        
+                        // const strr_1 = new_backO-new_layO;
+                        // const strr_2 = amount;
+                        // const back_val3 = amount/2
+                        // const lay_val3 = (back_val3*backOdds)/layOdds
+
+                        // const Awin = ((backOdds - 1) * back_val3) - ((layOdds - 1) * (amount / 2));
+                        // const Bwin = (amount / 2) - back_val3;
+                        
                         const new_backO = (amount / 2) * (backOdds - 1);
                         const new_layO = (amount / 2) * (layOdds - 1);
                         const strr_1 = new_backO - new_layO;
@@ -1262,6 +1298,13 @@ if (winning_player_odds && Array.isArray(winning_player_odds)) {
                 all_data["data"]["market_catalogue"] = [];
             }
         });
+
+
+
+
+
+
+        
         tableBody.addEventListener('change', function(event) {
             if (event.target.type === 'checkbox') {
                 updateSelectAllCheckbox();
@@ -1301,6 +1344,81 @@ function InsufficientBalance(message, show) {
 
 const token = sessionStorage.getItem('sessionToken')
 // console.log(token)
+
+
+
+
+// function submitBtn() {
+//     const formattedData = all_data.data.market_catalogue.map(market => ({
+//         marketId: market.marketId,
+//         amount: market.amount,
+//         strategy: market.strategies,
+//     }));
+
+//     console.log("FORMATTED DATA", formattedData[0]);
+
+//     if (REDIRECT) {
+//         showloader();
+//         loader_overlay.style.display = 'block';
+
+//         fetch('http://localhost:6060/api/placeOrder', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'Authorization': `Bearer ${token}`
+//             },
+//             body: JSON.stringify(formattedData[0]),
+//         })
+//         .then(response => {
+//             if (!response.ok) {
+//                 Swal.fire({
+//                     icon: 'error',
+//                     title: 'Oops...',
+//                     text: `Error: ${response.status} ${response.statusText}`,
+//                 });
+//                 throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
+//             }
+//             return response.json();
+//         })
+//         .then(data => {
+//             console.log("Response Data:", data);
+
+//             // Check specifically for 'SUCCESS' status from backend
+//             if (data.result && data.result.status === 'SUCCESS') {
+//                 hideLoader();
+//                 loader_overlay.style.display = 'none';
+
+//                 // Redirect to market status page
+//                 setTimeout(() => {
+//                     window.location.href = "../market/marketui.html"; 
+//                 }, 500);
+//             } else {
+//                 Swal.fire({
+//                     icon: 'error',
+//                     title: 'Order Failed',
+//                     text: 'Something went wrong! Please try again.',
+//                 });
+//                 throw new Error("Order placement failed");
+//             }
+//         })
+//         .catch(error => {
+//             console.error("Error placing order:", error);
+//             hideLoader();
+//             loader_overlay.style.display = 'none';
+
+//             if (!Swal.isVisible()) {
+//                 Swal.fire({
+//                     icon: 'error',
+//                     title: 'Oops...',
+//                     text: 'Something went wrong! Please try again later.',
+//                 });
+//             }
+//         });
+//     }
+// }
+
+
+
 
 
 

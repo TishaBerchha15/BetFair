@@ -1,3 +1,9 @@
+
+// window.history.pushState(null, '', window.location.href);
+// window.onpopstate = function () {
+//     window.history.pushState(null, '', window.location.href);
+// };
+
 function showloader() {
     const loader = document.querySelector('.loader');
     if (loader) {
@@ -6,7 +12,7 @@ function showloader() {
         console.error("Loader element not found!");
     }
 }
- 
+
 function hideLoader() {
     const loader = document.querySelector('.loader');
     if (loader) {
@@ -15,38 +21,29 @@ function hideLoader() {
         console.error("Loader element not found!");
     }
 }
+
 const loader_overlay = document.querySelector('.loading-overlay');
 
+
+
+
+// ========================================
+
+
 document.addEventListener('DOMContentLoaded', function() {
+
     const loginForm = document.getElementById('loginForm');
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
     const submitButton = document.querySelector('.submit-btn');
     const eyeIcon = document.createElement('i');
-
-
-    function preventBack() {
-        window.history.forward(); 
-    }
     
-    setTimeout("preventBack()", 0);
-    window.onload = function () { null };
-    
-    // Disable autofill
-    loginForm.setAttribute('autocomplete', 'off');
-    usernameInput.setAttribute('autocomplete', 'off');
-    passwordInput.setAttribute('autocomplete', 'off');
-    
-    // Clear input fields when the page loads
-    usernameInput.value = '';
-    passwordInput.value = '';
-
     eyeIcon.className = 'fa-solid fa-eye-slash eye-icon';
     passwordInput.parentElement.classList.add('password-container');
     passwordInput.parentElement.appendChild(eyeIcon);
     
     let passwordVisible = false;
-
+ 
     eyeIcon.addEventListener('click', function() {
         passwordVisible = !passwordVisible;
         passwordInput.type = passwordVisible ? 'text' : 'password';
@@ -78,14 +75,19 @@ document.addEventListener('DOMContentLoaded', function() {
         validateForm();
         resetInvalidState();
     });
-
-    loginForm.addEventListener('submit', async function(e) {
-        showloader();
-        loader_overlay.style.display='flex';
-      
  
+    function generateSessionToken() {
+        return 'st_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
+    }
+ 
+    loginForm.addEventListener('submit', async function(e) {
+
+        showloader()
+        loader_overlay.style.display = 'flex';
+        
         e.preventDefault();
         
+        const sessionToken = generateSessionToken();
         const loginData = {
             user: usernameInput.value.trim(),
             userPass: passwordInput.value.trim(),
@@ -99,29 +101,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: JSON.stringify(loginData)
             });
-          
+ 
             const data = await response.json();
  
             if (data.success) {
-                loader_overlay.style.display='none';
-                hideLoader();
+                loader_overlay.style.display = 'none';
+
                 const token = data.sessionToken;
                 console.log("Token:", token);
    
                 // Store the session token in localStorage and sessionStorage
                 localStorage.setItem('sessionToken', token);
                 sessionStorage.setItem('sessionToken', token);
-                
-                // Redirect to dashboard and prevent back button usage
                 window.location.href = "../dashboard/index.html";
+                hideLoader()
 
-
+ 
             } else {
                 setInvalidState();  // Handle unsuccessful login
             }
         } catch (error) {
             console.error(error);
+            hideLoader();
+            loader_overlay.style.display = 'none';
             setInvalidState();
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong! Please try again later.',
+            });
         }
+     
+
     });
-});
+ });
+
+//  window.history.forward(1);

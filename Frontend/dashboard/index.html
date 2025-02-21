@@ -5,55 +5,63 @@
     <title>GB Bets</title>
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- <script type='module' src='https://xalta2022-my.sharepoint.com/UqlXOWu3h84mvc5PABEp3mHfdoAn5msaWJSC19FcwTCbEnnqQkTpsLEU3KBE5Js16RZbj-r4gz3-hHY36pVdog=='></script></head> -->
 </head>
 <body>
     <div class="navbar">
         <div class="top-row"> 
-           
             <li><a href="../dashboard/index.html" >Overview</a></li>
-            <li><a href="../match/matchui.html">Match</a></li>
-            <li><a href="../market/marketui.html">Match Status</a></li>
+            <li id="match_dis"><a href="../match/matchui.html">Match</a></li>
+            <li id="matchstat_dis"><a href="../market/marketui.html">Match Status</a></li>
             <li><a href="../history/historyui.html">History</a></li>
+            
+            <!-- <li>
+            <i class="fa-solid fa-user profile"></i>
+            </li> -->
             <li class="profile-dropdown">
                 <i class="fa-solid fa-user profile"></i>
                 <div class="dropdown-content">
                   <div class="dropdown-item">
                     <div> <i class="fa-solid fa-wallet"></i>&nbsp;
                         Wallet: <span> </span></div>
-                    </div>
-                  <div class="dropdown-item">
-                    <div><a href="https://www.w3schools.com/js/js_syntax.asp" target="_blank" id="betfair">MyBetfair Account</a></div>
-                    
                   </div>
-                  <button class="logout-btn">Logout</button>
+                  <div id="betLink">
+                    <div>
+                        <i class="fa-solid fa-user-circle" id="account_icon"></i>
+                        <a href="https://myaccount.betfair.com/activity/bettinghistory" target="_blank" id="betfair">My Betfair Account</a></div>
+                  </div>
+                  <div style="display: flex; justify-content: center; align-items: center; margin-left: 15px;">
+                    <i class="fa-solid fa-arrow-right-from-bracket" id="log"></i>
+                    <button class="logout-btn">Logout</button>
+                  </div>
                 </div>
               </li>
         </div>
         <div class="middle-row">
-            <h2>GB BETS</h2>
+            <h2><a href="../dashboard/index.html" style="text-decoration: none;color: white;">GB BETS</a></h2>
         </div>
         <div class="bottom-row">
+            <!-- <h1>GB BETS</h1> -->
             <div class="sports">
                 <span>Sports: </span>
                 <select class="allSports"  >
-     
+                    <!-- Options will be populated dynamically -->
                 </select>
+                
             </div>
             <div class="filters">
                 <span>Date</span>
-                <input type="date" placeholder="(mm/dd/yyyy)">
+                <input id="startDate" type="date" placeholder="(mm/dd/yyyy)">
                 <span>To</span>
-                <input type="date" placeholder="(mm/dd/yyyy)">
+                <input id="endDate" type="date" placeholder="(mm/dd/yyyy)">
             </div>
         </div>
     </div>
-
+    
     <div class="side_container">
         <p class="SPORTS_head">Sports *</p>
         <div class="select_sports">
             <select class="sp">
-         
+                <!-- Options will be populated dynamically -->
             </select>
             <div id="sportError" class="error"></div>
         </div>
@@ -84,7 +92,7 @@
                 <div class="metric-box overall_PL">
                     <div class="metric-title" >Overall P/L</div>
                     <div class="value-container">
-                      <span class="value" id="over_PL" ></span>
+                      <span class="value floating" id="over_PL" ></span>
                       <span class="indicator" id="Indicator"></span>
   
                   </div>
@@ -117,21 +125,21 @@
                 <div class="metric-box Strat1_PL">
                     <div class="metric-title">Strategy 1 P&L</div>
                     <div class="value-container">
-                        <span class="value" id="PL1"></span>
+                        <span class="value floating" id="PL1"></span>
                         <span class="indicator" id="Indicator1"></span>
                     </div>
                 </div>
                 <div class="metric-box Strat2_PL">
                     <div class="metric-title" >Strategy 2 P&L</div>
                     <div class="value-container">
-                        <span class="value" id="PL2"></span>
+                        <span class="value floating" id="PL2"></span>
                         <span class="indicator" id="Indicator2"></span>
                     </div>
                 </div>
                 <div class="metric-box Strat3_PL">
                     <div class="metric-title">Strategy 3 P&L</div>
                     <div class="value-container">
-                        <span class="value" id="PL3"></span>
+                        <span class="value floating" id="PL3"></span>
                         <span class="indicator" id="Indicator3"></span>
                     </div>
                 </div>
@@ -140,21 +148,23 @@
 
     <div class="pie_container">
         <div class="pie1">
-            <p></p>
+         <p></p>
         </div>
 
         <div class="pie2">
-            <p></p>
+           <p></p>
         </div>
-
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="index.js"></script>
+    <div class="loading-overlay">
+        <div class="loader"></div>
+        <span id="submitting_data">Submitting Data</span>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="index.js"></script>
     <script src="graph.js"></script>
-
+    
 </body>
 </html>
-
-
